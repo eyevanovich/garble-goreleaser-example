@@ -16,7 +16,7 @@ builds:
     # trick goreleaser into using -literals as command, and pass -tiny and
     # build as flags.
     command: "-literals"
-    flags: [ "-tiny", "build"]
+    flags: [ "-tiny", "-seed=random", "build"]
 
     goos:
       - darwin
