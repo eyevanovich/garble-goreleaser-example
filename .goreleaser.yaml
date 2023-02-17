@@ -1,0 +1,43 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/goreleaser/goreleaser/v1.15.2/www/docs/static/schema-pro.json
+# Make sure to check the documentation at https://goreleaser.com
+project_name: garble-testing
+before:
+  hooks:
+    - go mod tidy
+builds:
+  - id: dataio-agent-mac
+    env:
+      - CGO_ENABLED=0
+    binary: dataio-agent
+    gobinary: garble
+    command: "-seed=random -tiny -literals"
+    goos:
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+    main: main.go
+archives:
+  - format: tar.gz
+    # this name template makes the OS and Arch compatible with the results of uname.
+    name_template: >-
+      {{ .ProjectName }}_
+      {{- title .Os }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "386" }}i386
+      {{- else }}{{ .Arch }}{{ end }}
+      {{- if .Arm }}v{{ .Arm }}{{ end }}
+    # use zip for windows archives
+    format_overrides:
+    - goos: windows
+      format: zip
+checksum:
+  name_template: 'checksums.txt'
+snapshot:
+  name_template: "{{ incpatch .Version }}-next"
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
