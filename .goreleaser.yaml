@@ -10,7 +10,14 @@ builds:
       - CGO_ENABLED=0
     binary: dataio-agent
     gobinary: garble
-    command: "-literals -tiny"
+
+    # command is a single string.
+    # garble's 'build' needs the -literals and -tiny args before it, so we
+    # trick goreleaser into using -literals as command, and pass -tiny and
+    # build as flags.
+    command: "-literals"
+    flags: [ "-tiny", "build"]
+
     goos:
       - darwin
     goarch:
