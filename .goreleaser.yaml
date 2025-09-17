@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/goreleaser/goreleaser/v1.15.2/www/docs/static/schema-pro.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/goreleaser/goreleaser/v2.12.1/www/docs/static/schema.json
 # Make sure to check the documentation at https://goreleaser.com
 project_name: garble-testing
 before:
@@ -9,7 +9,7 @@ builds:
     env:
       - CGO_ENABLED=0
     binary: dataio-agent
-    gobinary: garble
+    tool: garble
 
     # command is a single string.
     # garble's 'build' needs the -literals and -tiny args before it, so we
@@ -28,7 +28,7 @@ archives:
   - format: tar.gz
     # this name template makes the OS and Arch compatible with the results of uname.
     name_template: >-
-      {{ .ProjectName }}_ß
+      {{ .ProjectName }}_
       {{- title .Os }}_
       {{- if eq .Arch "amd64" }}x86_64
       {{- else if eq .Arch "386" }}i386
